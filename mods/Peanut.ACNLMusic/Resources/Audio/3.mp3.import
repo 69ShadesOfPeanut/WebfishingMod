@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/3.mp3-80ea0c0816ec7268d11e7df9718e5568.mp3str"
+
+[deps]
+
+source_file="res://mods/Peanut.ACNLMusic/Resources/Audio/3.mp3"
+dest_files=[ "res://.import/3.mp3-80ea0c0816ec7268d11e7df9718e5568.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
