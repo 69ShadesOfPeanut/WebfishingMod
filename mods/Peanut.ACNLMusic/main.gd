@@ -5,6 +5,7 @@ var MusicCheckTime : int = 1
 var time : Dictionary
 var hour
 var CurrentSong
+var SongCheckCount : int = 0
 
 # Create child nodes of global audio for each track
 # Set correct stream for audio stream player node
@@ -51,12 +52,18 @@ func TimeoutCalled():
 		# Check the last set song
 		# This is cause during song transitions songs are set as "null"
 		if CurrentSong == hour and GlobalAudio._is_song_playing() == false:
-			print("Current song is right one")
-			return
+			# Check a total of 5 times as after current song is set and player leaves and joins another lobby
+			# it can flag it as already playing...
+			if SongCheckCount < 5:
+				print("Current song is right one")
+				SongCheckCount += 1
+				return
+		SongCheckCount = 0
 		print("Song not playing.... Starting song...")
 		
 		# Set music playing
 		GlobalAudio._play_music(hour)
+		CurrentSong = hour
 		
 		print("Song started")
 	# Check if song matches hour
