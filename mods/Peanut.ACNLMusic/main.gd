@@ -75,6 +75,25 @@ func TimeoutCalled():
 		CurrentSong = hour
 		
 		print("Song changed")
-	
+	# Checks if on main menu then disabled check and sets up main menu music
+	elif get_tree().get_current_scene().get_name() == "main_menu":
+		if get_tree().get_current_scene().get_node("world/music_check").is_stopped() == false:
+			print("Music check on main menu not disabled, disabling...")
+			get_tree().get_current_scene().get_node("world/music_check").stop()
+			
+			# Sets up menu music
+			print("Music check disabled. Starting main menu music")
+			GlobalAudio.song_volumes["menu"] = - 2
+			
+			var Music = AudioStreamPlayer.new()
+			var MenuMusic = load("res://mods/Peanut.ACNLMusic/Resources/Audio/Main.mp3")
+			Music.stream = MenuMusic
+			Music.name = "menu"
+			Music.bus = "Music"
+			GlobalAudio.add_child(Music)
+			
+			# Plays music after 2 seconds
+			yield(get_tree().create_timer(2), "timeout")
+			GlobalAudio._play_music("menu")
 	# Debug line
 	#print(GlobalAudio.song_playing)
