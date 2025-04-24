@@ -35,6 +35,17 @@ func _ready():
 	GlobalAudio.add_child(MusicCheck)
 	MusicCheck.connect("timeout", self, "TimeoutCalled")
 	MusicCheck.start()
+	
+	# Sets up menu music
+	print("Music check disabled. Starting main menu music")
+	GlobalAudio.song_volumes["menu"] = - 2
+	
+	var Music = AudioStreamPlayer.new()
+	var MenuMusic = load("res://mods/Peanut.ACNLMusic/Resources/Audio/Main.mp3")
+	Music.stream = MenuMusic
+	Music.name = "menu"
+	Music.bus = "Music"
+	GlobalAudio.add_child(Music)
 
 
 # Called whenever music check timer is done
@@ -80,17 +91,6 @@ func TimeoutCalled():
 		if get_tree().get_current_scene().get_node("world/music_check").is_stopped() == false:
 			print("Music check on main menu not disabled, disabling...")
 			get_tree().get_current_scene().get_node("world/music_check").stop()
-			
-			# Sets up menu music
-			print("Music check disabled. Starting main menu music")
-			GlobalAudio.song_volumes["menu"] = - 2
-			
-			var Music = AudioStreamPlayer.new()
-			var MenuMusic = load("res://mods/Peanut.ACNLMusic/Resources/Audio/Main.mp3")
-			Music.stream = MenuMusic
-			Music.name = "menu"
-			Music.bus = "Music"
-			GlobalAudio.add_child(Music)
 			
 			# Plays music after 2 seconds
 			yield(get_tree().create_timer(2), "timeout")
