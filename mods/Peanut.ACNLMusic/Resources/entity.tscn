@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://mods/Peanut.ACNLMusic/Resources/ShadowCreature.tscn" type="PackedScene" id=1]
+[ext_resource path="res://mods/Peanut.ACNLMusic/Resources/entity.gd" type="Script" id=2]
+
+[node name="entity" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
+aabb = AABB( -0.972834, -0.977637, -1, 1.94567, 1.95527, 2 )
+
+[node name="ShadowCreature" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, 0, 0, 0 )
+
+[node name="RayCast" type="RayCast" parent="."]
+enabled = true
+collision_mask = 9
+
+[connection signal="screen_entered" from="VisibilityNotifier" to="." method="EnterVision"]

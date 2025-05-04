@@ -1,0 +1,101 @@
+[gd_scene load_steps=9 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type particles;
+
+//this defines how far out the particles will spawn
+uniform float particle_diameter = 5.0f;
+
+
+//input a value that changes over time and can also be a coordinate
+//use vec(TIME,0) if you got no coordinates
+float rand(vec2 co){
+    //this will give a pseudorandom value between 0-1
+    return fract(sin(dot(co.xy ,vec2(23.21,101.83))) * 34759.214);
+}
+
+void vertex(){
+	//this sets all the stuff necesary
+        //spawn them in a given radius around the emmitor
+	if(RESTART)
+	{
+		
+		//set the position to be randomly dispersed in an area
+		float x_modifier = (rand(vec2(TIME,0))*particle_diameter);
+		float z_modifier = (rand(vec2(TIME+1.0f,0))*particle_diameter);
+		
+		//centers effect
+		TRANSFORM[3][0] = x_modifier - 0.5f*particle_diameter;
+		TRANSFORM[3][2] = z_modifier- 0.5f*particle_diameter;
+		
+		
+		//VELOCITY.y = -rand(vec2(TIME+2f,0));
+		//VELOCITY.y = -1.0f;
+	}
+	
+	
+	//apply a changing wind that changes with time with a noticable variation
+	//VELOCITY.x = 3.0f*sin(TIME/4.0f)*sin(TIME)*rand(vec2(float(INDEX),0.0f));
+	//VELOCITY.z = 3.0f*cos(TIME/4.0f)*cos(TIME)*rand(vec2(float(INDEX)+1.0f,0.0f));
+	
+	
+	
+	//gives a consistent rotation that depends on the index
+	float x_rotation = TIME*rand(vec2(float(INDEX),0.0f));
+	float y_rotation = TIME*rand(vec2(float(INDEX)+1.0f,0.0f));
+	float z_rotation = TIME*rand(vec2(float(INDEX)+2.0f,0.0f));
+	
+	
+	
+	//these just rotate the leaf using matrix math
+	//x rotation
+	TRANSFORM[1][1] = cos(x_rotation);
+	TRANSFORM[2][1] = -sin(x_rotation);
+	TRANSFORM[1][2] = sin(x_rotation);
+	TRANSFORM[2][2] = cos(x_rotation);
+	//y rotation
+	TRANSFORM[0][0] = cos(y_rotation);
+	TRANSFORM[2][0] = -sin(y_rotation);
+	TRANSFORM[0][2] = sin(y_rotation);
+	TRANSFORM[2][2] = cos(y_rotation);
+	//z rotation
+	TRANSFORM[0][0] = cos(z_rotation);
+	TRANSFORM[1][0] = -sin(z_rotation);
+	TRANSFORM[0][1] = sin(z_rotation);
+	TRANSFORM[1][1] = cos(z_rotation);
+	
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/particle_diameter = 5.0
+
+[sub_resource type="SpatialMaterial" id=6]
+albedo_color = Color( 0.8, 0, 0.839216, 1 )
+
+[sub_resource type="CubeMesh" id=3]
+material = SubResource( 6 )
+
+[sub_resource type="SpatialMaterial" id=10]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="CubeMesh" id=9]
+material = SubResource( 10 )
+size = Vector3( 1, 2, 2 )
+
+[sub_resource type="SpatialMaterial" id=8]
+albedo_color = Color( 0, 0.0705882, 1, 1 )
+
+[sub_resource type="PrismMesh" id=5]
+material = SubResource( 8 )
+
+[node name="Glitch" type="Spatial"]
+
+[node name="Particles" type="Particles" parent="."]
+amount = 5
+lifetime = 0.12
+process_material = SubResource( 2 )
+draw_passes = 3
+draw_pass_1 = SubResource( 3 )
+draw_pass_2 = SubResource( 9 )
+draw_pass_3 = SubResource( 5 )

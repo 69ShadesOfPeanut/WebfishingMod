@@ -6,10 +6,14 @@ var time : Dictionary
 var hour
 var CurrentSong
 var SongCheckCount : int = 0
+onready var utility = preload("res://mods/Peanut.ACNLMusic/utility.gd").new()
 
 # Create child nodes of global audio for each track
 # Set correct stream for audio stream player node
 func _ready():
+	# Add "utility" script as child
+	add_child(utility)
+	
 	print("Setting up audio...")
 	
 	# Loops per song track
@@ -17,7 +21,7 @@ func _ready():
 		var ist = str(i)
 		
 		# Adds songs to song list dic
-		GlobalAudio.song_volumes[ist] = - 2
+		GlobalAudio.song_volumes[ist] = - 15
 		
 		
 		# Create audio stream players for each song and assign names and values
@@ -38,7 +42,7 @@ func _ready():
 	
 	# Sets up menu music
 	print("Music check disabled. Starting main menu music")
-	GlobalAudio.song_volumes["menu"] = - 2
+	GlobalAudio.song_volumes["menu"] = - 15
 	
 	var Music = AudioStreamPlayer.new()
 	var MenuMusic = load("res://mods/Peanut.ACNLMusic/Resources/Audio/Main.mp3")
