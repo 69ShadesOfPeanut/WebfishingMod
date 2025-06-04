@@ -4,7 +4,7 @@ extends Node
 # Vars
 var DevMode : bool = false # Default false
 var UtilTimerTime : int = 60 # Default 60
-var EventChance : int = 200 # Default 200
+var EventChance : int = 600 # Default 600
 var Joined : bool = false
 var EntityLocations : Array = [
 	Vector3(50.946, 28.75, 59.288),
