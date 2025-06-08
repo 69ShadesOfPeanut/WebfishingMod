@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Bossa.mp3-33cc01b9792208e5cc6550db95751440.mp3str"
+
+[deps]
+
+source_file="res://mods/Peanut.ACNLMusic/Resources/KKSlider/Bossa.mp3"
+dest_files=[ "res://.import/Bossa.mp3-33cc01b9792208e5cc6550db95751440.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -4,7 +4,7 @@ extends Node
 # Vars
 var DevMode : bool = false # Default false
 var UtilTimerTime : int = 60 # Default 60
-var EventChance : int = 600 # Default 600
+var EventChance : int = 700 # Default 700
 var Joined : bool = false
 var EntityLocations : Array = [
 	Vector3(50.946, 28.75, 59.288),
@@ -61,7 +61,7 @@ func EventHandler():
 		return
 	
 	# Random events
-	match randi() % 3 + 1:
+	match randi() % 4 + 1:
 		1:
 			print("random event 1")
 			Network._update_chat("null: Hello?", false)
@@ -81,6 +81,13 @@ func EventHandler():
 			Glitch = GlitchScene.instance()
 			get_tree().get_current_scene().add_child(Glitch)
 			Glitch.set_translation(Vector3(-130.51, 6.737, -393.60))
+		4:
+			print("random event 4")
+			if randi() % 300 + 1 == 1:
+				print("random event 4 success")
+				OS.shell_open("https://i.postimg.cc/tJd1QJGn/Webfishging-Chat-Log.png")
+			else:
+				print("random event 4 fail")
 
 func JoinMessage():
 	Network._update_chat("null joined the game", false)

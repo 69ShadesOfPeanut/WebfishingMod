@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Jongara.mp3-f3a7bb8f1a0c23f3c7822ab5c40b35c1.mp3str"
+
+[deps]
+
+source_file="res://mods/Peanut.ACNLMusic/Resources/KKSlider/Jongara.mp3"
+dest_files=[ "res://.import/Jongara.mp3-f3a7bb8f1a0c23f3c7822ab5c40b35c1.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

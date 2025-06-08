@@ -1,11 +1,14 @@
 extends Node
 
 # Vars
-var MusicCheckTime : int = 1
+var MusicCheckTime : int = 5
+var KKSliderArray : Array
 var time : Dictionary
 var hour
+var minute
 var CurrentSong
 var SongCheckCount : int = 0
+var KKHours : Array = ["20", "21", "22", "23", "0", "1", "2"]
 onready var utility = preload("res://mods/Peanut.ACNLMusic/utility.gd").new()
 
 # Create child nodes of global audio for each track
@@ -31,6 +34,15 @@ func _ready():
 		Music.name = ist
 		Music.bus = "Music"
 		GlobalAudio.add_child(Music)
+	
+	
+	KKArraySetup()
+	# Add audio stream player to control KK Slider songs
+	var KKSliderMusic = AudioStreamPlayer.new()
+	KKSliderMusic.name = "KKSliderMusic"
+	KKSliderMusic.bus = "Music"
+	GlobalAudio.add_child(KKSliderMusic)
+	GlobalAudio.song_volumes["KKSliderMusic"] = 0
 	
 	
 	# Setup how often music is checked. Default is 1 second
@@ -60,7 +72,27 @@ func TimeoutCalled():
 	# Set current hour
 	time = Time.get_time_dict_from_system()
 	hour = str(time["hour"])
-	#print(hour)
+	minute = str(time["minute"])
+	
+	# Check if hour is KK Slider time
+	if KKSliderTime() == true and get_tree().get_current_scene().get_name() == "world":
+		# Check if KK slider song is playing
+		if GlobalAudio.get_node("KKSliderMusic").is_playing() == true:
+			#print("KK Slider playing")
+			return
+		print("KK Slider time!")
+		
+		# Select random song
+		randomize()
+		var RandomKKSong = KKSliderArray[randi() % KKSliderArray.size()]
+		print(RandomKKSong)
+		# Setup song node
+		var KKSliderMusicNode = GlobalAudio.get_node("KKSliderMusic")
+		var KKSliderSong = load("res://mods/Peanut.ACNLMusic/Resources/KKSlider/" + RandomKKSong)
+		KKSliderMusicNode.stream = KKSliderSong
+		yield(get_tree().create_timer(2), "timeout")
+		GlobalAudio._play_music("KKSliderMusic")
+		return
 	
 	# Check if song is playing
 	if get_tree().get_current_scene().get_name() == "world" and GlobalAudio._is_song_playing() == false:
@@ -99,5 +131,38 @@ func TimeoutCalled():
 			# Plays music after 2 seconds
 			yield(get_tree().create_timer(2), "timeout")
 			GlobalAudio._play_music("menu")
+	
 	# Debug line
 	#print(GlobalAudio.song_playing)
+
+
+# Check if KK slider time is current
+# returns true if it is KK time
+# returns false if it isn't
+func KKSliderTime():
+	var DateTime = Time.get_date_dict_from_system()
+	var Weekday = DateTime["weekday"]
+	
+	if Weekday == 6:
+		if KKHours.has(hour):
+			return true
+	return false
+
+# Function for setting up KK Slider array
+func KKArraySetup():
+	# Make array of KK Slider songs
+	# Takes files from the KK Slider directory that end in .mp3
+	var dir = Directory.new()
+	if dir.open("res://mods/Peanut.ACNLMusic/Resources/KKSlider/") == OK:
+		print("KK Slider directory opened")
+		dir.list_dir_begin()
+		var FileName = dir.get_next()
+		while FileName != "":
+			if (FileName.get_extension() == "import"):
+				FileName = FileName.replace(".import", "")
+				print("Found file: " + FileName)
+				KKSliderArray.append(FileName)
+			FileName = dir.get_next()
+	else:
+		print("An error occured when trying to access KK Slider songs")
+	print(KKSliderArray)

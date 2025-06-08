@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/House.mp3-b62a525d8929e95c29f1f997ea097803.mp3str"
+
+[deps]
+
+source_file="res://mods/Peanut.ACNLMusic/Resources/KKSlider/House.mp3"
+dest_files=[ "res://.import/House.mp3-b62a525d8929e95c29f1f997ea097803.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

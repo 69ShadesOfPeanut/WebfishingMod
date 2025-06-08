@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Stroll.mp3-4fb70058433fdec63a7b7001239f562f.mp3str"
+
+[deps]
+
+source_file="res://mods/Peanut.ACNLMusic/Resources/KKSlider/Stroll.mp3"
+dest_files=[ "res://.import/Stroll.mp3-4fb70058433fdec63a7b7001239f562f.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
